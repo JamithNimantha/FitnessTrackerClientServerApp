@@ -8,18 +8,18 @@ namespace FitnessTrackerServerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WeightEntryController : ControllerBase
+    public class CheatMealEntryController : ControllerBase
     {
-        private readonly IWeightEntryService _service;
+        private readonly ICheatMealEntryService _service;
 
-        public WeightEntryController(IWeightEntryService service)
+        public CheatMealEntryController(ICheatMealEntryService service)
         {
             _service = service;
         }
 
-        // GET: api/WeightEntry
+        // GET: api/CheatMealEntry
         [HttpGet, Authorize]
-        public async Task<ActionResult<IEnumerable<WeightEntryDTO>>> GetWeightEntry()
+        public async Task<ActionResult<IEnumerable<CheatMealEntryDTO>>> GetCheatMealEntry()
         {
             if (!this.User.Identity.IsAuthenticated)
             {
@@ -29,25 +29,25 @@ namespace FitnessTrackerServerApp.Controllers
             return await _service.GetAllByUsername(username);
         }
 
-        // GET: api/WeightEntry/5
+        // GET: api/CheatMealEntry/5
         [HttpGet("{id}"), Authorize]
-        public async Task<ActionResult<WeightEntryDTO>> GetWeightEntry(string id)
+        public async Task<ActionResult<CheatMealEntryDTO>> GetCheatMealEntry(string id)
         {
             
-            var weightEntry = await _service.Get(new Guid(id));
+            var entry = await _service.Get(new Guid(id));
 
-            if (weightEntry == null)
+            if (entry == null)
             {
                 return NotFound();
             }
 
-            return weightEntry;
+            return entry;
         }
 
-        // PUT: api/WeightEntry/5
+        // PUT: api/CheatMealEntry/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}"), Authorize]
-        public async Task<IActionResult> PutWeightEntry(string id, WeightEntryDTO weightEntry)
+        public async Task<IActionResult> PutEntry(string id, CheatMealEntryDTO cheatMealEntryDTO)
         {
             var guid = new Guid(id);
             var record = await _service.Get(guid);
@@ -59,29 +59,31 @@ namespace FitnessTrackerServerApp.Controllers
 
             try
             {
-                await _service.Update(guid, weightEntry);
+                await _service.Update(guid, cheatMealEntryDTO);
             }
             catch (DbUpdateConcurrencyException)
             {
                 throw;
             }
 
+           
+
             return NoContent();
         }
 
-        // POST: api/WeightEntry
+        // POST: api/CheatMealEntry
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost, Authorize]
-        public async Task<ActionResult<WeightEntryDTO>> PostWeightEntry(WeightEntryDTO weightEntry)
+        public async Task<ActionResult<CheatMealEntryDTO>> PostEntry(CheatMealEntryDTO entry)
         {
-            weightEntry.UserName = this.User.Identity.Name;
-            return await _service.Add(weightEntry);
+            entry.UserName = this.User.Identity.Name;
+            return await _service.Add(entry);
 
         }
 
-        // DELETE: api/WeightEntry/5
+        // DELETE: api/CheatMealEntry/5
         [HttpDelete("{id}"), Authorize]
-        public async Task<IActionResult> DeleteWeightEntry(string id)
+        public async Task<IActionResult> DeleteEntry(string id)
         {
             var guid = new Guid(id);
             var record = await _service.Get(guid);

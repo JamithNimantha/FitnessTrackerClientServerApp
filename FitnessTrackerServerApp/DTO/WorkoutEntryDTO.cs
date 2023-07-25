@@ -17,7 +17,6 @@ namespace FitnessTrackerServerApp.DTO
         public string? Intensity { get; set; }
         [Required]
         public decimal CaloriesBurned { get; set; }
-        [Required]
         public Guid? WeightEntryId { get; set; }
 
         public WeightEntryDTO? WeightEntry { get; set; }
