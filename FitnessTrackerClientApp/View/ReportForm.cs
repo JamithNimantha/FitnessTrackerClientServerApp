@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using FitnessTrackerApp.Enumeration;
-using FitnessTrackerApp.Model;
-using FitnessTrackerApp.Service;
+using FitnessTrackerClientApp.Enumeration;
+using FitnessTrackerClientApp.DTO;
+using FitnessTrackerClientApp.Service;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class ReportForm : UserControl
     {
@@ -64,7 +64,7 @@ namespace FitnessTrackerApp.View
         private void GenerateReport()
         {
             
-            if (datePickerStartDate.Value.Date > datePickerEndDate.Value.Date)
+           /* if (datePickerStartDate.Value.Date > datePickerEndDate.Value.Date)
             {
                 MessageBox.Show("Start Date cannot be greater than End Date");
                 return;
@@ -117,7 +117,7 @@ namespace FitnessTrackerApp.View
             foreach (var item in combinedList)
             {
                 this.dataGridView.Rows.Add(item.Date.ToShortDateString(), item.Workouts, item.CheatMeals, item.CaloriesBurnt, item.CaloriesGained, item.AverageWeight);
-            }
+            }*/
 
         }
 

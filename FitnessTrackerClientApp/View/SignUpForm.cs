@@ -1,12 +1,11 @@
-﻿using FitnessTrackerApp.Enumeration;
-using FitnessTrackerApp.Exceptions;
-using FitnessTrackerApp.Model;
-using FitnessTrackerApp.Service;
-using FitnessTrackerApp.Utility;
+﻿using FitnessTrackerClientApp.Service;
 using System;
 using System.Windows.Forms;
+using FitnessTrackerClientApp.Enumeration;
+using FitnessTrackerClientApp.DTO;
+using FitnessTrackerClientApp.Exceptions;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class SignUpForm : Form
     {
@@ -80,24 +79,20 @@ namespace FitnessTrackerApp.View
             }
 
 
-            var User = new User();
-            var WeightEntry = new WeightEntry();
-
+            var User = new RegisterUserDTO();
             // assign all the declared values to User object
             User.Name = Name;
             User.UserName = UserName;
-            User.Password = PasswordManager.GetSaltedHash(Password);
+            User.Password = Password;
+            User.ConfirmPassword = ConfirmPassword;
             User.Height = Height;
             User.DateofBirth = DOB;
             User.Gender = Gender;
-            WeightEntry.Weight = Weight;
-            WeightEntry.Date = DateTime.Now;
-            WeightEntry.UserName = UserName;
+            User.Weight = Weight;
 
             try
             {
                 UserService.Instance.AddUser(User);
-                WeightEntryService.Instance.AddEntry(WeightEntry);
                 MessageBox.Show("User Sign Up Successfully!");
                 this.Hide();
                 var loginForm = new LoginForm();
@@ -107,7 +102,7 @@ namespace FitnessTrackerApp.View
                 loginForm.ShowDialog();
                 this.Dispose();
             }
-            catch (UserNameAlreadyExistsExeption ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

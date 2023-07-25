@@ -1,16 +1,9 @@
-﻿using FitnessTrackerApp.Service;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+﻿using System;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Forms.DataVisualization.Charting;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class DashBoardForm : UserControl
     {
@@ -24,7 +17,7 @@ namespace FitnessTrackerApp.View
 
         private void ShowChart()
         {
-            chart.Series.Clear();
+            /*chart.Series.Clear();
 
             var weightEntries = WeightEntryService.Instance.FindWeightEntriesInAscByUserName(_userName);
 
@@ -87,7 +80,7 @@ namespace FitnessTrackerApp.View
             }
 
             // Add the weight series to the chart
-            chart.Series.Add(weightSeries);
+            chart.Series.Add(weightSeries);*/
 
         }
 

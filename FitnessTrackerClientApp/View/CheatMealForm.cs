@@ -1,12 +1,12 @@
-﻿using FitnessTrackerApp.Service;
+﻿using FitnessTrackerClientApp.Service;
 using System;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using FitnessTrackerApp.Model;
+using FitnessTrackerClientApp.DTO;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class CheatMealForm : UserControl
     {
@@ -22,13 +22,13 @@ namespace FitnessTrackerApp.View
 
         private void Clear()
         {
-            var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
+            /*var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
             txtWeight.Text = latestWeightEntry.Weight.ToString();
             datePickerWeightEntryDate.Value = DateTime.Now;
             txtMealName.Text = "";
             txtColories.Text = Convert.ToDecimal("0.00").ToString();
             LoadTable();
-            ChangeSaveUpdateButton();
+            ChangeSaveUpdateButton();*/
 
         }
 
@@ -82,7 +82,7 @@ namespace FitnessTrackerApp.View
                 return;
             }
 
-            var WeightEntry = new WeightEntry();
+           /* var WeightEntry = new WeightEntry();
             WeightEntry.UserName = _userName;
             WeightEntry.Weight = Convert.ToDecimal(txtWeight.Text);
             WeightEntry.Date = datePickerWeightEntryDate.Value;
@@ -93,13 +93,13 @@ namespace FitnessTrackerApp.View
                 MealName = txtMealName.Text,
                 Calories = Convert.ToDecimal(txtColories.Text),
                 Date = datePickerWeightEntryDate.Value
-            };
+            };*/
 
             try
             {
-                CheatMealService.Instance.AddCheatMealEntry(CheatMealEntry, WeightEntry);
+               /* CheatMealService.Instance.AddCheatMealEntry(CheatMealEntry, WeightEntry);
                 MessageBox.Show("Cheat Meal Entry Added Successfully!");
-                Clear();
+                Clear();*/
             }
             catch (Exception ex)
             {
@@ -145,7 +145,7 @@ namespace FitnessTrackerApp.View
                 return;
             }
 
-            var Meal = CheatMealService.Instance.GetCheatMealEntryByGUID(_GUID);
+           /* var Meal = CheatMealService.Instance.GetCheatMealEntryByGUID(_GUID);
             Meal.MealName = txtMealName.Text;
             Meal.Calories = Convert.ToDecimal(txtColories.Text);
             Meal.Date = datePickerWeightEntryDate.Value;
@@ -155,11 +155,11 @@ namespace FitnessTrackerApp.View
             WeightEntry.UserName = _userName;
             WeightEntry.Weight = Convert.ToDecimal(txtWeight.Text);
             WeightEntry.GUID = Meal.WeightEntryGUID;
-
+*/
             try
             {
-                CheatMealService.Instance.UpdateCheatMealEntry(Meal, WeightEntry);
-                MessageBox.Show("Workout Entry Updated Successfully!");
+/*                CheatMealService.Instance.UpdateCheatMealEntry(Meal, WeightEntry);
+*/                MessageBox.Show("Workout Entry Updated Successfully!");
                 this.IsUpdate = false;
                 Clear();
             }
@@ -210,7 +210,7 @@ namespace FitnessTrackerApp.View
             dataGridView.SelectedRows.Cast<DataGridViewRow>().ToList().ForEach(row =>
             {
                 var GUID = row.Cells["GUID"].Value.ToString();
-                CheatMealService.Instance.DeleteCheatMealEntryByGUID(GUID);
+                //CheatMealService.Instance.DeleteCheatMealEntryByGUID(GUID);
                 dataGridView.Rows.Remove(row);
             });
             MessageBox.Show("Cheat Meal Entry Deleted Successfully!");
@@ -218,14 +218,14 @@ namespace FitnessTrackerApp.View
 
         public void LoadTable()
         {
-            dataGridView.Rows.Clear();
+            /*dataGridView.Rows.Clear();
             var Entries = CheatMealService.Instance.FindCheatMealEntriesInDescByUserName(_userName);
             var WeightEntries = WeightEntryService.Instance.FindWeightEntriesInDescByUserName(_userName);
             Entries.ForEach(CheatMeal =>
             {
                 var WeightEntry = WeightEntryService.Instance.GetWeightEntryByGUID(WeightEntries, CheatMeal.WeightEntryGUID);
                 dataGridView.Rows.Add(CheatMeal.MealName, CheatMeal.Calories, WeightEntry.Weight, CheatMeal.Date, CheatMeal.GUID);
-            });
+            });*/
 
         }
 

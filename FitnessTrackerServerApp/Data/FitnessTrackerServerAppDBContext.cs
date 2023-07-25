@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using FitnessTrackerApp.Model;
+﻿using Microsoft.EntityFrameworkCore;
+using FitnessTrackerServerApp.Model;
 
 namespace FitnessTrackerServerApp.Data
 {
@@ -26,8 +22,10 @@ namespace FitnessTrackerServerApp.Data
             new DBInitializer(builder).Seed();
         }
 
-        public DbSet<FitnessTrackerApp.Model.User> User { get; set; } = default!;
-        public DbSet<FitnessTrackerApp.Model.WeightEntry> WeightEntry { get; set; } = default!;
-        public DbSet<FitnessTrackerApp.Model.WorkoutEntry> WorkoutEntry { get; set; } = default!;
+        public DbSet<FitnessTrackerServerApp.Model.User> User { get; set; } = default!;
+        public DbSet<FitnessTrackerServerApp.Model.WeightEntry> WeightEntry { get; set; } = default!;
+        public DbSet<FitnessTrackerServerApp.Model.WorkoutEntry> WorkoutEntry { get; set; } = default!;
+        public DbSet<FitnessTrackerServerApp.Model.CheatMealEntry> CheatMealEntry { get; set; } = default!;
+
     }
 }

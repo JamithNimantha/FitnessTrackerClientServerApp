@@ -1,10 +1,10 @@
-﻿using FitnessTrackerApp.Model;
-using FitnessTrackerApp.Service;
+﻿using FitnessTrackerClientApp.Model;
+using FitnessTrackerClientApp.Service;
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class PredictionForm : UserControl
     {
@@ -178,7 +178,7 @@ namespace FitnessTrackerApp.View
 
         private void btnPredict_Click(object sender, EventArgs e)
         {
-            List<WorkoutEntry> workoutEntries = WorkoutService.Instance.FindWorkoutsInAscByUserName(_userName);
+           /* List<WorkoutEntry> workoutEntries = WorkoutService.Instance.FindWorkoutsInAscByUserName(_userName);
             List<WeightEntry> weightEntries = WeightEntryService.Instance.FindWeightEntriesInDescByUserName(_userName);
             List<CheatMealEntry> cheatMealEntries = CheatMealService.Instance.FindCheatMealEntriesInDescByUserName(_userName);
 
@@ -188,7 +188,7 @@ namespace FitnessTrackerApp.View
             string predictedFitnessStatus = PredictFitnessStatus(workoutEntries);
 
             lblWeight.Text = "Predicted Weight: " + predictedWeight.ToString("0.00") + " KG";
-            lblStatus.Text = "Predicted Fitness Status : " + predictedFitnessStatus;
+            lblStatus.Text = "Predicted Fitness Status : " + predictedFitnessStatus;*/
         }
 
         private void btnClear_Click(object sender, EventArgs e)

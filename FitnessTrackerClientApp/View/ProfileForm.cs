@@ -1,5 +1,5 @@
-﻿using FitnessTrackerApp.Service;
-using FitnessTrackerApp.Model;
+﻿using FitnessTrackerClientApp.Service;
+using FitnessTrackerClientApp.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,21 +10,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
-using FitnessTrackerApp.Enumeration;
-using FitnessTrackerApp.Utility;
-using FitnessTrackerApp.Exceptions;
+using FitnessTrackerClientApp.Enumeration;
+using FitnessTrackerClientApp.Exceptions;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class ProfileForm : UserControl
     {
         private readonly string _userName;
-        private User User;
+        private UserDTO User;
         public ProfileForm(string UserName)
         {
             _userName = UserName;
             InitializeComponent();
-            LoadDate();
+            LoadData();
         }
 
         private void lblSep_Click(object sender, EventArgs e)
@@ -32,7 +31,7 @@ namespace FitnessTrackerApp.View
 
         }
 
-        private void LoadDate()
+        private void LoadData()
         { 
             this.User = UserService.Instance.FindUserByUserName(_userName);
             this.txtUserName.Text = User.UserName;
@@ -118,16 +117,22 @@ namespace FitnessTrackerApp.View
             }
             else
             {
-                User.Password = PasswordManager.GetSaltedHash(Password);
-                UserService.Instance.UpdateUser(User);
-                LoadDate();
+                var updatePasswordDTO = new UpdatePasswordDTO
+                {
+                    UserName = User.UserName,
+                    Password = Password,
+                    ConfirmPassword = ConfirmPassword
+                    
+                };
+                UserService.Instance.UpdateUserPassword(updatePasswordDTO);
+                LoadData();
                 MessageBox.Show("Password Updated!");
             }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
         {
-            LoadDate();
+            LoadData();
         }
     }
 }

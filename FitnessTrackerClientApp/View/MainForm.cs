@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
+using FitnessTrackerClientApp.View;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class MainForm : Form
     {

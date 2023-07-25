@@ -1,4 +1,4 @@
-﻿namespace FitnessTrackerApp.View
+﻿namespace FitnessTrackerClientApp.View
 {
     partial class PredictionForm
     {

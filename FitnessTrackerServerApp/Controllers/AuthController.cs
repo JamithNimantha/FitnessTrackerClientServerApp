@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackerServerApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthController: ControllerBase
     {
@@ -19,7 +19,7 @@ namespace FitnessTrackerServerApp.Controllers
 
         // POST: api/RegisterUser
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("/RegisterUser")]
+        [HttpPost("RegisterUser", Name = "Register a New User")]
         public async Task<ActionResult<UserDTO>> RegisterUser(RegisterUserDTO user)
         {
             var exists = await _service.UserExists(user.UserName);
@@ -45,7 +45,7 @@ namespace FitnessTrackerServerApp.Controllers
 
         // POST: api/Auth
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("/Auth")]
+        [HttpPost("Login", Name = "Authenticate User")]
         public async Task<ActionResult<string>> Authenticate(LoginUserDTO user)
         {
 
@@ -59,23 +59,7 @@ namespace FitnessTrackerServerApp.Controllers
             return token;
         }
 
-        // POST: api/Auth
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("/ChangePassword")]
-        public async Task<ActionResult<UserDTO>> UpdateUserPassowrd(UpdatePasswordDTO dto)
-        {
-            var exists = await _service.UserExists(dto.UserName);
-            if (!exists)
-            {
-                return NotFound();
-            }
-
-            if (dto.Password != dto.ConfirmPassword)
-            {
-                return BadRequest("Passwords do not match!");
-            }
-
-            return await _service.UpdateUserPassword(dto.UserName, dto.Password);
-        }
+       
+        
     }
 }

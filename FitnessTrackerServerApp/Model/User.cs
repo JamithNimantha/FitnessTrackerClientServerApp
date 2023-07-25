@@ -3,7 +3,7 @@ using FitnessTrackerServerApp.Enumeration;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FitnessTrackerApp.Model
+namespace FitnessTrackerServerApp.Model
 {
     [Table("User")]
     public class User

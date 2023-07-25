@@ -1,4 +1,4 @@
-﻿namespace FitnessTrackerApp.View
+﻿namespace FitnessTrackerClientApp.View
 {
     partial class WorkoutForm
     {
@@ -250,9 +250,6 @@
             this.cmbIntensity.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbIntensity.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbIntensity.FormattingEnabled = true;
-            this.cmbIntensity.Items.AddRange(new object[] {
-            FitnessTrackerApp.Enumeration.Gender.MALE,
-            FitnessTrackerApp.Enumeration.Gender.FEMALE});
             this.cmbIntensity.Location = new System.Drawing.Point(201, 70);
             this.cmbIntensity.Name = "cmbIntensity";
             this.cmbIntensity.Size = new System.Drawing.Size(272, 33);

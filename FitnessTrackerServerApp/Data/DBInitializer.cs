@@ -43,9 +43,9 @@ namespace FitnessTrackerServerApp.Data
 
             // Weight Entries
 
-            _builder.Entity<WeightEntry>(a =>
+            _builder.Entity<WeightEntryDTO>(a =>
             {
-                a.HasData(new WeightEntry
+                a.HasData(new WeightEntryDTO
                 {
                     WeightEntryId = new Guid("0a5099b5-d7be-4948-871e-897c487a5f4c"),
                     Date = new DateTime(2021, 04, 19),
@@ -55,9 +55,9 @@ namespace FitnessTrackerServerApp.Data
                 );
             });
 
-            _builder.Entity<WeightEntry>(a =>
+            _builder.Entity<WeightEntryDTO>(a =>
             {
-                a.HasData(new WeightEntry
+                a.HasData(new WeightEntryDTO
                 {
                     WeightEntryId = new Guid("1a5099b5-d7be-4948-871e-897c487a5f4c"),
                     Date = new DateTime(2021, 04, 19),

@@ -1,4 +1,4 @@
-﻿namespace FitnessTrackerApp.View
+﻿namespace FitnessTrackerClientApp.View
 {
     partial class ProfileForm
     {
@@ -118,8 +118,8 @@
             this.cmbGender.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbGender.FormattingEnabled = true;
             this.cmbGender.Items.AddRange(new object[] {
-            FitnessTrackerApp.Enumeration.Gender.MALE,
-            FitnessTrackerApp.Enumeration.Gender.FEMALE});
+            FitnessTrackerClientApp.Enumeration.Gender.MALE,
+            FitnessTrackerClientApp.Enumeration.Gender.FEMALE});
             this.cmbGender.Location = new System.Drawing.Point(198, 207);
             this.cmbGender.Name = "cmbGender";
             this.cmbGender.Size = new System.Drawing.Size(265, 33);

@@ -1,9 +1,10 @@
-﻿using FitnessTrackerApp.Service;
+﻿using FitnessTrackerClientApp.View;
+using FitnessTrackerClientApp.Service;
 using System;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class LoginForm : Form
     {
@@ -46,32 +47,39 @@ namespace FitnessTrackerApp.View
                 return;
             }
 
-            if (_userService.Authenticate(_UserName, _Password))
+            try
             {
-                this.Hide();
-                var mainForm = new MainForm(_UserName);
-                mainForm.Location = this.Location;
-                mainForm.StartPosition = FormStartPosition.Manual;
-                mainForm.FormClosing += delegate { Application.Exit(); };
-                mainForm.ShowDialog();
-                this.Dispose();
+                if (_userService.Authenticate(_UserName, _Password))
+                {
+                    this.Hide();
+                    var mainForm = new MainForm(_UserName);
+                    mainForm.Location = this.Location;
+                    mainForm.StartPosition = FormStartPosition.Manual;
+                    mainForm.FormClosing += delegate { Application.Exit(); };
+                    mainForm.ShowDialog();
+                    this.Dispose();
+                }
+                else
+                {
+                    MessageBox.Show("Please provide valid credentials!");
+                    return;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please provide valid credentials!");
-                return;
+                MessageBox.Show(ex.Message);
             }
-
         }
 
         private void lblSignUp_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            this.Hide();
             var signUpForm = new SignUpForm();
             signUpForm.Location = this.Location;
             signUpForm.StartPosition = FormStartPosition.Manual;
             signUpForm.FormClosing += delegate { this.Show(); };
             signUpForm.Show();
-            this.Hide();
+
         }
 
         private void LoginForm_FormClosed(object sender, FormClosedEventArgs e)

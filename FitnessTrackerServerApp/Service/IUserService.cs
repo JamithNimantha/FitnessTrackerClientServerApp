@@ -1,4 +1,4 @@
-﻿using FitnessTrackerApp.Model;
+﻿using FitnessTrackerServerApp.Model;
 using FitnessTrackerServerApp.DTO;
 using Microsoft.AspNetCore.Mvc;
 

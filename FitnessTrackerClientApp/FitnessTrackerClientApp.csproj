@@ -33,8 +33,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Windows.Forms.DataVisualization.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -46,8 +52,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DTO\CheatMealEntry.cs" />
+    <Compile Include="DTO\LoginUserDTO.cs" />
+    <Compile Include="DTO\RegisterUserDTO.cs" />
+    <Compile Include="DTO\UpdatePasswordDTO.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
+    <Compile Include="DTO\WeightEntry.cs" />
+    <Compile Include="DTO\WorkoutEntry.cs" />
+    <Compile Include="Enumeration\Gender.cs" />
+    <Compile Include="Exceptions\RecordNotFoundExeption.cs" />
+    <Compile Include="Exceptions\UserNameAlreadyExistsExeption.cs" />
+    <Compile Include="Exceptions\UserNameNotFoundException.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\CheatMealService.cs" />
+    <Compile Include="Service\RestClient.cs" />
+    <Compile Include="Service\UserService.cs" />
+    <Compile Include="Service\WeightEntryService.cs" />
+    <Compile Include="Service\WorkoutService.cs" />
+    <Compile Include="Utility\Util.cs" />
     <Compile Include="View\CheatMealForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -147,6 +170,7 @@
     <EmbeddedResource Include="View\WorkoutForm.resx">
       <DependentUpon>WorkoutForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -160,5 +184,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -36,7 +36,7 @@ namespace FitnessTrackerServerApp.Controllers
         [HttpPut("{UserName}"), Authorize]
         public async Task<IActionResult> UpdateUser(string UserName, UserDTO user)
         {
-            ModelState.Remove("UserDTO.Password");
+            //ModelState.Remove("UserDTO.Password");
             if (UserName != user.UserName)
             {
                 return BadRequest();
@@ -73,6 +73,23 @@ namespace FitnessTrackerServerApp.Controllers
 
             return await _service.DeleteUser(UserName);
 
+        }
+
+        [HttpPut("ChangePassword"), Authorize]
+        public async Task<ActionResult<UserDTO>> UpdateUserPassowrd(UpdatePasswordDTO dto)
+        {
+            var exists = await _service.UserExists(dto.UserName);
+            if (!exists)
+            {
+                return NotFound();
+            }
+
+            if (dto.Password != dto.ConfirmPassword)
+            {
+                return BadRequest("Passwords do not match!");
+            }
+
+            return await _service.UpdateUserPassword(dto.UserName, dto.Password);
         }
 
     }

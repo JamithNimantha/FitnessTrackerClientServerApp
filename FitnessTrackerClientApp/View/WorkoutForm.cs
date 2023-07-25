@@ -1,6 +1,6 @@
-﻿using FitnessTrackerApp.Model;
-using FitnessTrackerApp.Service;
-using FitnessTrackerApp.Utility;
+﻿using FitnessTrackerClientApp.Model;
+using FitnessTrackerClientApp.Service;
+using FitnessTrackerClientApp.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class WorkoutForm : UserControl
     {
@@ -27,14 +27,14 @@ namespace FitnessTrackerApp.View
 
         public void Clear()
         {
-            var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
+            /*var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
             txtWeight.Text = latestWeightEntry.Weight.ToString();
             datePickerWeightEntryDate.Value = DateTime.Now;
             txtWorkoutName.Text = "";
             txtColoriesBurnt.Text =  Convert.ToDecimal("0.00").ToString();
             LoadTable();
             ChangeSaveUpdateButton();
-            cmbIntensity.DataSource = Util.GetIntensityTypes();
+            cmbIntensity.DataSource = Util.GetIntensityTypes();*/
 
         }
 
@@ -54,14 +54,14 @@ namespace FitnessTrackerApp.View
 
         public void LoadTable()
         { 
-            dataGridView.Rows.Clear();
+           /* dataGridView.Rows.Clear();
             var WorkoutEntries = WorkoutService.Instance.FindWorkoutsInDescByUserName(_userName);
             var WeightEntries = WeightEntryService.Instance.FindWeightEntriesInDescByUserName(_userName);
             WorkoutEntries.ForEach( Workout =>
             {
                 var WeightEntry = WeightEntryService.Instance.GetWeightEntryByGUID(WeightEntries, Workout.WeightEntryGUID);
                 dataGridView.Rows.Add(Workout.WorkoutName, Workout.Intensity, Workout.CaloriesBurned, WeightEntry.Weight, Workout.Date, Workout.GUID);
-            });
+            });*/
 
         }
 
@@ -109,7 +109,7 @@ namespace FitnessTrackerApp.View
                 return;
             }
 
-            var WorkoutEntry = WorkoutService.Instance.GetWorkoutByGUID(_GUID);
+            /*var WorkoutEntry = WorkoutService.Instance.GetWorkoutByGUID(_GUID);
             WorkoutEntry.WorkoutName = txtWorkoutName.Text;
             WorkoutEntry.CaloriesBurned = Convert.ToDecimal(txtColoriesBurnt.Text);
             WorkoutEntry.Date = datePickerWeightEntryDate.Value;
@@ -119,14 +119,14 @@ namespace FitnessTrackerApp.View
             WeightEntry.Date = datePickerWeightEntryDate.Value;
             WeightEntry.UserName = _userName;
             WeightEntry.Weight = Convert.ToDecimal(txtWeight.Text);
-            WeightEntry.GUID = WorkoutEntry.WeightEntryGUID;
+            WeightEntry.GUID = WorkoutEntry.WeightEntryGUID;*/
 
             try
             {
-                WorkoutService.Instance.UpdateWorkout(WorkoutEntry, WeightEntry);
+               /* WorkoutService.Instance.UpdateWorkout(WorkoutEntry, WeightEntry);
                 MessageBox.Show("Workout Entry Updated Successfully!");
                 this.IsUpdate = false;
-                Clear();
+                Clear();*/
             }
             catch (Exception ex)
             {
@@ -181,9 +181,9 @@ namespace FitnessTrackerApp.View
 
             try
             {
-                WorkoutService.Instance.AddWorkout(WorkoutEntry, WeightEntry);
+                /*WorkoutService.Instance.AddWorkout(WorkoutEntry, WeightEntry);
                 MessageBox.Show("Workout Entry Saved Successfully!");
-                Clear();
+                Clear();*/
             }
             catch (Exception ex)
             {
@@ -233,9 +233,9 @@ namespace FitnessTrackerApp.View
             }
             dataGridView.SelectedRows.Cast<DataGridViewRow>().ToList().ForEach(row =>
             {
-                var GUID = row.Cells["GUID"].Value.ToString();
+              /*  var GUID = row.Cells["GUID"].Value.ToString();
                 WorkoutService.Instance.DeleteWorkoutByGUID(GUID);
-                dataGridView.Rows.Remove(row);
+                dataGridView.Rows.Remove(row);*/
             });
             MessageBox.Show("Weight Entry Deleted Successfully!");
         }

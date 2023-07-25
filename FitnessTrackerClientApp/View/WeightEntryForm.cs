@@ -1,9 +1,9 @@
-﻿using FitnessTrackerApp.Model;
-using FitnessTrackerApp.Service;
+﻿using FitnessTrackerClientApp.DTO;
+using FitnessTrackerClientApp.Service;
 using System;
 using System.Windows.Forms;
 
-namespace FitnessTrackerApp.View
+namespace FitnessTrackerClientApp.View
 {
     public partial class WeightEntryForm : UserControl
     {
@@ -20,17 +20,17 @@ namespace FitnessTrackerApp.View
 
         private void LoadTable()
         {
-            dataGridViewWeightEntry.Rows.Clear();
+            /*dataGridViewWeightEntry.Rows.Clear();
             var list = WeightEntryService.Instance.FindWeightEntriesInDescByUserName(_userName);
             list.ForEach(x => 
             { 
                 dataGridViewWeightEntry.Rows.Add(x.Weight, x.Date, x.GUID);
-            });
+            });*/
         }
 
         private void DeleteRecord()
         {
-            var selectedRows = dataGridViewWeightEntry.SelectedRows;
+           /* var selectedRows = dataGridViewWeightEntry.SelectedRows;
             if (selectedRows.Count == 0)
             {
                 MessageBox.Show("Please Select a Row!");
@@ -61,12 +61,12 @@ namespace FitnessTrackerApp.View
             
             WeightEntryService.Instance.DeleteEntry(guid);
             dataGridViewWeightEntry.Rows.Remove(selectedRow);
-            MessageBox.Show("Weight Entry Deleted Successfully!");
+            MessageBox.Show("Weight Entry Deleted Successfully!");*/
         }
 
         private void UpdateRecord()
         {
-            var selectedRows = dataGridViewWeightEntry.SelectedRows;
+           /* var selectedRows = dataGridViewWeightEntry.SelectedRows;
             if (selectedRows.Count == 0)
             {
                 MessageBox.Show("Please Select a Row!");
@@ -78,14 +78,14 @@ namespace FitnessTrackerApp.View
             txtWeight.Value = Convert.ToDecimal(selectedRow.Cells[0].Value);
             datePickerWeightEntryDate.Value = Convert.ToDateTime(selectedRow.Cells[1].Value);
             this.IsUpdate = true;
-            ChangeSaveUpdateButton();
+            ChangeSaveUpdateButton();*/
 
             
         }
 
         private void UpdateEntry()
         {
-            var weight = Convert.ToDecimal(txtWeight.Text);
+            /*var weight = Convert.ToDecimal(txtWeight.Text);
             var Date = datePickerWeightEntryDate.Value;
 
             if (weight <= 0)
@@ -109,12 +109,12 @@ namespace FitnessTrackerApp.View
             WeightEntryService.Instance.UpdateEntry(weightEntry, this._GUID);
             MessageBox.Show("Weight Entry Updated Successfully!");
             this.IsUpdate = false;
-            Clear();
+            Clear();*/
         }
 
         private void ChangeSaveUpdateButton()
         {
-            if (this.IsUpdate)
+            /*if (this.IsUpdate)
             {
                 this.btnAddEntry.Text = "Update";
                 this.btnAddEntry.BackColor = System.Drawing.Color.Green;
@@ -123,14 +123,14 @@ namespace FitnessTrackerApp.View
             {
                 this.btnAddEntry.Text = "Save";
                 this.btnAddEntry.BackColor = System.Drawing.Color.Blue;
-            }
+            }*/
             
         }
 
 
         private void SaveEntry()
         {
-            var weight = Convert.ToDecimal(txtWeight.Text);
+            /*var weight = Convert.ToDecimal(txtWeight.Text);
             var Date = datePickerWeightEntryDate.Value;
 
             if (weight <= 0)
@@ -153,7 +153,7 @@ namespace FitnessTrackerApp.View
             WeightEntryService.Instance.AddEntry(weightEntry);
 
             MessageBox.Show("Weight Entry Added Successfully!");
-            Clear();
+            Clear();*/
         }
 
 
@@ -173,11 +173,11 @@ namespace FitnessTrackerApp.View
 
         private void Clear()
         {
-            var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
+            /*var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
             txtWeight.Text = latestWeightEntry.Weight.ToString();
             datePickerWeightEntryDate.Value = DateTime.Now.Date;
             LoadTable();
-            ChangeSaveUpdateButton();
+            ChangeSaveUpdateButton();*/
 
         }
 

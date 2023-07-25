@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace FitnessTrackerServerApp.DTO
 {
@@ -10,6 +9,7 @@ namespace FitnessTrackerServerApp.DTO
         public string? UserName { get; set; }
         [Required]
         public string? Password { get; set; }
+        [Required]
         public string? ConfirmPassword { get; set; }
     }
 }
