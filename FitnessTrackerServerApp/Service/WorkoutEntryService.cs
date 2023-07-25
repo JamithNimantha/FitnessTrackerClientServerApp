@@ -26,6 +26,10 @@ namespace FitnessTrackerServerApp.Service
             workoutEntryDTO.WorkoutName = workoutEntry.WorkoutName;
             workoutEntryDTO.Intensity = workoutEntry.Intensity;
             workoutEntryDTO.WorkoutEntryId = workoutEntry.WorkoutEntryId;
+            if (workoutEntryDTO.WeightEntryId != null)
+            {
+                workoutEntryDTO.WeightEntry =  _weightEntryService.Get(workoutEntryDTO.WeightEntryId.Value).Result.Value;
+            }
             return workoutEntryDTO;
         }
 
@@ -39,7 +43,10 @@ namespace FitnessTrackerServerApp.Service
             workoutEntry.WorkoutName = dto.WorkoutName;
             workoutEntry.Intensity = dto.Intensity;
             workoutEntry.WorkoutEntryId = dto.WorkoutEntryId;
-
+            if (dto.WeightEntryId != null)
+            {
+                dto.WeightEntry = _weightEntryService.Get(dto.WeightEntryId.Value).Result.Value;
+            }
             return workoutEntry;
         }
 
@@ -79,8 +86,13 @@ namespace FitnessTrackerServerApp.Service
                 return new NotFoundResult();
             }
             await _weightEntryService.Delete(entry.WeightEntryId.Value);
-            _db.WorkoutEntry.Remove(entry);
-            await _db.SaveChangesAsync();
+            
+            if (await EntryExists(id))
+            {
+                _db.WorkoutEntry.Remove(entry);
+                await _db.SaveChangesAsync();
+            }
+            
 
             return new NoContentResult();
         }
@@ -103,7 +115,7 @@ namespace FitnessTrackerServerApp.Service
 
         public async Task<ActionResult<IEnumerable<WorkoutEntryDTO>>> GetAllByUsername(string UserName)
         {
-            var records = await _db.WorkoutEntry.AsNoTracking().Where(e => e.UserName == UserName).ToListAsync();
+            var records = await _db.WorkoutEntry.AsNoTracking().Where(e => e.UserName == UserName).OrderByDescending(e => e.Date).ToListAsync();
             var recordsDTO = new List<WorkoutEntryDTO>();
             foreach (var record in records)
             {

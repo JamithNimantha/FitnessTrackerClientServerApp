@@ -1,25 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using FitnessTrackerServerApp.Model;
 using FitnessTrackerServerApp.Service;
-using Microsoft.AspNetCore.Authorization;
 using FitnessTrackerServerApp.DTO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FitnessTrackerServerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class WeightEntryController : ControllerBase
+    public class WorkoutEntryController : ControllerBase
     {
-        private readonly IWeightEntryService _service;
+        private readonly IWorkoutEntryService _service;
 
-        public WeightEntryController(IWeightEntryService service)
+        public WorkoutEntryController(IWorkoutEntryService workoutEntryService)
         {
-            _service = service;
+            _service = workoutEntryService;
         }
 
-        // GET: api/WeightEntry
+        // GET: api/WorkoutEntry
         [HttpGet, Authorize]
-        public async Task<ActionResult<IEnumerable<WeightEntryDTO>>> GetWeightEntry()
+        public async Task<ActionResult<IEnumerable<WorkoutEntryDTO>>> GetWorkoutEntry()
         {
             if (!this.User.Identity.IsAuthenticated)
             {
@@ -29,25 +30,24 @@ namespace FitnessTrackerServerApp.Controllers
             return await _service.GetAllByUsername(username);
         }
 
-        // GET: api/WeightEntry/5
+        // GET: api/WorkoutEntry/5
         [HttpGet("{id}"), Authorize]
-        public async Task<ActionResult<WeightEntryDTO>> GetWeightEntry(string id)
+        public async Task<ActionResult<WorkoutEntryDTO>> GetWorkoutEntry(string id)
         {
-            
-            var weightEntry = await _service.Get(new Guid(id));
+            var workoutEntry = await _service.Get(new Guid(id));
 
-            if (weightEntry == null)
+            if (workoutEntry == null)
             {
                 return NotFound();
             }
 
-            return weightEntry;
+            return workoutEntry;
         }
 
-        // PUT: api/WeightEntry/5
+        // PUT: api/WorkoutEntry/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}"), Authorize]
-        public async Task<IActionResult> PutWeightEntry(string id, WeightEntryDTO weightEntry)
+        public async Task<IActionResult> PutWorkoutEntry(string id, WorkoutEntryDTO workoutEntry)
         {
             var guid = new Guid(id);
             var record = await _service.Get(guid);
@@ -59,31 +59,29 @@ namespace FitnessTrackerServerApp.Controllers
 
             try
             {
-                await _service.Update(guid, weightEntry);
+                await _service.Update(guid, workoutEntry);
             }
             catch (DbUpdateConcurrencyException)
             {
                 throw;
             }
 
-           
-
             return NoContent();
         }
 
-        // POST: api/WeightEntry
+        // POST: api/WorkoutEntry
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost, Authorize]
-        public async Task<ActionResult<WeightEntryDTO>> PostWeightEntry(WeightEntryDTO weightEntry)
+        public async Task<ActionResult<WorkoutEntryDTO>> PostWorkoutEntry(WorkoutEntryDTO workoutEntry)
         {
-            weightEntry.UserName = this.User.Identity.Name;
-            return await _service.Add(weightEntry);
+            workoutEntry.UserName = this.User.Identity.Name;
 
+            return await _service.Add(workoutEntry);
         }
 
-        // DELETE: api/WeightEntry/5
+        // DELETE: api/WorkoutEntry/5
         [HttpDelete("{id}"), Authorize]
-        public async Task<IActionResult> DeleteWeightEntry(string id)
+        public async Task<IActionResult> DeleteWorkoutEntry(string id)
         {
             var guid = new Guid(id);
             var record = await _service.Get(guid);
@@ -98,6 +96,5 @@ namespace FitnessTrackerServerApp.Controllers
 
             return NoContent();
         }
-
     }
 }

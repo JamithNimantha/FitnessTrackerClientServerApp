@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FitnessTrackerServerApp.Service
 {
-    public interface ICheatMealEntry
+    public interface ICheatMealEntryService
     {
         Task<ActionResult<CheatMealEntryDTO>> Add(CheatMealEntryDTO CheatMealEntryDTO);
         Task<ActionResult<CheatMealEntryDTO>> Update(Guid id, CheatMealEntryDTO CheatMealEntryDTO);

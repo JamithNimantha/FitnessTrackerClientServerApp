@@ -82,7 +82,7 @@ namespace FitnessTrackerServerApp.Service
 
         public async Task<ActionResult<IEnumerable<WeightEntryDTO>>> GetAllByUsername(string UserName)
         {
-            var records = await _db.WeightEntry.AsNoTracking().Where(e => e.UserName == UserName).ToListAsync();
+            var records = await _db.WeightEntry.AsNoTracking().Where(e => e.UserName == UserName).OrderByDescending( e => e.Date).ToListAsync();
             var recordsDTO = new List<WeightEntryDTO>();
             foreach (var record in records)
             {
