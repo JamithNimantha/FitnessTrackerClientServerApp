@@ -21,11 +21,11 @@ namespace FitnessTrackerServerApp.Controllers
         [HttpGet, Authorize]
         public async Task<ActionResult<IEnumerable<WeightEntryDTO>>> GetWeightEntry()
         {
-            if (!User.Identity.IsAuthenticated)
+            if (!this.User.Identity.IsAuthenticated)
             {
                 return Unauthorized();
             }
-            string username = User.Identity.Name;
+            string username = this.User.Identity.Name;
             return await _service.GetAllByUsername(username);
         }
 
@@ -76,7 +76,7 @@ namespace FitnessTrackerServerApp.Controllers
         [HttpPost]
         public async Task<ActionResult<WeightEntryDTO>> PostWeightEntry(WeightEntryDTO weightEntry)
         {
-         
+            weightEntry.UserName = this.User.Identity.Name;
             return await _service.Add(weightEntry);
 
         }

@@ -14,7 +14,7 @@ namespace FitnessTrackerServerApp.Service
             _db = fitnessTrackerServerAppDBContext;
         }
 
-        private static WeightEntryDTO ConvertToDTO(WeightEntry weightEntry)
+        public static WeightEntryDTO ConvertToDTO(WeightEntry weightEntry)
         {
             var weightEntryDTO = new WeightEntryDTO();
             weightEntryDTO.WeightEntryId = weightEntry.WeightEntryId;
@@ -24,7 +24,7 @@ namespace FitnessTrackerServerApp.Service
             return weightEntryDTO;
         }
 
-        private WeightEntry ConvertToModel(WeightEntryDTO weightEntryDTO)
+        public WeightEntry ConvertToModel(WeightEntryDTO weightEntryDTO)
         {
             var weightEntry = new WeightEntry();
             weightEntry.WeightEntryId = weightEntryDTO.WeightEntryId;
