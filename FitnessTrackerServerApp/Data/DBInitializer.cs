@@ -1,4 +1,4 @@
-﻿using FitnessTrackerApp.Model;
+﻿using FitnessTrackerServerApp.Model;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitnessTrackerServerApp.Data
@@ -43,9 +43,9 @@ namespace FitnessTrackerServerApp.Data
 
             // Weight Entries
 
-            _builder.Entity<WeightEntryDTO>(a =>
+            _builder.Entity<WeightEntry>(a =>
             {
-                a.HasData(new WeightEntryDTO
+                a.HasData(new WeightEntry
                 {
                     WeightEntryId = new Guid("0a5099b5-d7be-4948-871e-897c487a5f4c"),
                     Date = new DateTime(2021, 04, 19),
@@ -55,9 +55,9 @@ namespace FitnessTrackerServerApp.Data
                 );
             });
 
-            _builder.Entity<WeightEntryDTO>(a =>
+            _builder.Entity<WeightEntry>(a =>
             {
-                a.HasData(new WeightEntryDTO
+                a.HasData(new WeightEntry
                 {
                     WeightEntryId = new Guid("1a5099b5-d7be-4948-871e-897c487a5f4c"),
                     Date = new DateTime(2021, 04, 19),

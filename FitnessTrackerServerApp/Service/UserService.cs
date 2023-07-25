@@ -63,7 +63,7 @@ namespace FitnessTrackerServerApp.Service
             {
                 _db.User.Add(newUser);
                 await _db.SaveChangesAsync();
-                WeightEntryDTO weightEntry = new WeightEntryDTO();
+                WeightEntry weightEntry = new WeightEntry();
                 weightEntry.UserName = newUser.UserName;
                 weightEntry.Weight = registerUserDTO.Weight;
                 weightEntry.Date = DateTime.Now;

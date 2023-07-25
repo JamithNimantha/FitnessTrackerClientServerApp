@@ -1,5 +1,4 @@
-﻿
-using FitnessTrackerServerApp.Enumeration;
+﻿using FitnessTrackerServerApp.Enumeration;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

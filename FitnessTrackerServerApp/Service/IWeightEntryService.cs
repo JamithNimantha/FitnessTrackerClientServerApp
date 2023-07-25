@@ -11,5 +11,6 @@ namespace FitnessTrackerServerApp.Service
         Task<ActionResult<IEnumerable<WeightEntryDTO>>> GetAllByUsername(string UserName);
         Task<ActionResult<WeightEntryDTO>> GetLatestByUsername(string UserName);
         Task<ActionResult> Delete(Guid id);
+        Task<bool> EntryExists(Guid id);
     }
 }
