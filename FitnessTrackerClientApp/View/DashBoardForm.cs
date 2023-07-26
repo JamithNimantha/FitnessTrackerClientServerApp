@@ -1,7 +1,9 @@
-﻿using System;
+﻿using FitnessTrackerClientApp.Service;
+using System;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace FitnessTrackerClientApp.View
 {
@@ -17,25 +19,12 @@ namespace FitnessTrackerClientApp.View
 
         private void ShowChart()
         {
-            /*chart.Series.Clear();
+            chart.Series.Clear();
 
-            var weightEntries = WeightEntryService.Instance.FindWeightEntriesInAscByUserName(_userName);
 
-            // If there two or more weight entries for same date then remove the older one
+            var last20WeightEntries = WeightEntryService.Instance.FindWeightEntriesInAscByUserName(_userName);
 
-            for (int i = 0; i < weightEntries.Count - 1; i++)
-            {
-                if (weightEntries[i].Date.Date == weightEntries[i + 1].Date.Date)
-                {
-                    weightEntries.RemoveAt(i);
-                    i--;
-                }
-            }
-
-            // Select the last 20 weight entries
-            int startIndex = Math.Max(weightEntries.Count - 20, 0);
-            var last20WeightEntries = weightEntries.GetRange(startIndex, Math.Min(20, weightEntries.Count - startIndex));
-
+           
             // Create a chart area
             var chartArea = new ChartArea();
             chartArea.AxisX.MajorGrid.Enabled = true;
@@ -80,7 +69,7 @@ namespace FitnessTrackerClientApp.View
             }
 
             // Add the weight series to the chart
-            chart.Series.Add(weightSeries);*/
+            chart.Series.Add(weightSeries);
 
         }
 

@@ -1,12 +1,11 @@
-﻿/*using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FitnessTrackerApp.Exceptions;
-using FitnessTrackerApp.Model;
+using System.Windows.Forms.DataVisualization.Charting;
+using FitnessTrackerClientApp.DTO;
+using FitnessTrackerClientApp.Exceptions;
 
-namespace FitnessTrackerApp.Service
+namespace FitnessTrackerClientApp.Service
 {
     public class WorkoutService
     {
@@ -29,109 +28,67 @@ namespace FitnessTrackerApp.Service
                 }
                 return instance;
             }
-        }   
+        }
 
-        public List<WorkoutEntry> FindWorkoutsInAscByUserName(string UserName)
+       /* public List<WorkoutEntryDTO> FindWorkoutsInAscByUserName(string UserName)
         {
             return GetWorkouts()
                 .Where(obj => obj.UserName.Equals(UserName))
                 .OrderBy(obj => obj.Date)
                 .ToList();
-        }
+        }*/
 
-        public List<WorkoutEntry> FindWorkoutsInDescByUserName(string UserName)
+        public List<WorkoutEntryDTO> FindWorkoutsInDescByUserName(string UserName)
         {
 
-            return GetWorkouts()
-                .Where(obj => obj.UserName.Equals(UserName))
-                .OrderByDescending(obj => obj.Date)
-                .ToList();
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WorkoutUrl, RestClient.BearerToken);
+            var records = client.FetchData<List<WorkoutEntryDTO>>();
+
+            return records;
         }
 
-        public WorkoutEntry FindLatestWorkoutForUser(string UserName)
+        /*public WorkoutEntryDTO FindLatestWorkoutForUser(string UserName)
         {
-            List<WorkoutEntry> workoutEntries = GetWorkouts();
-            if (workoutEntries.Count == 0)
-            {
-                return new WorkoutEntry();
-            }
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WorkoutUrl, RestClient.BearerToken);
+            var records = client.FetchData<List<WorkoutEntryDTO>>();
+
+            return records;
 
             return workoutEntries.Where(obj => obj.UserName.Equals(UserName)).OrderByDescending(obj => obj.Date).First();
-        }
+        }*/
 
-        public WorkoutEntry GetWorkoutByGUID(List<WorkoutEntry> Workouts, string GUID)
+      
+
+        public WorkoutEntryDTO GetWorkoutByGUID(string GUID)
         {
-            return Workouts.FirstOrDefault(obj => obj.GUID.Equals(GUID));
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WorkoutUrl + "/" + GUID, RestClient.BearerToken);
+            return client.FetchData<WorkoutEntryDTO>();
         }
 
-        public WorkoutEntry GetWorkoutByGUID(string GUID)
-        {
-            return GetWorkouts().FirstOrDefault(obj => obj.GUID.Equals(GUID));
-        }
-
-        public List<WorkoutEntry> GetWorkouts()
+       /* public List<WorkoutEntry> GetWorkouts()
         {
             return DataStorage.LoadData<WorkoutEntry>();
-        }
+        }*/
 
 
         public void DeleteWorkoutByGUID(string GUID)
         {
-            List<WorkoutEntry> Workouts = GetWorkouts();
-            var ExistingWorkout = GetWorkoutByGUID(Workouts, GUID);
-            if (ExistingWorkout != null)
-            {
-                WeightEntryService.Instance.DeleteEntry(ExistingWorkout.WeightEntryGUID);
-                Workouts.Remove(ExistingWorkout);
-                DataStorage.SaveData(Workouts);
-            } else
-            {
-                throw new RecordNotFoundExeption(GUID);
-            }
-           
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WorkoutUrl + "/" + GUID, RestClient.BearerToken);
+            client.Delete<WorkoutEntryDTO>();
+
         }
 
-        public void AddWorkout(WorkoutEntry Workout, WeightEntry WeightEntry)
+        public void AddWorkout(WorkoutEntryDTO Workout)
         {
-            List<WorkoutEntry> Workouts = GetWorkouts();
-            WeightEntry = WeightEntryService.Instance.AddEntry(WeightEntry);
-
-            Workouts.Add(Workout);
-            Workout.GUID = Guid.NewGuid().ToString();
-            Workout.WeightEntryGUID = WeightEntry.GUID;
-            DataStorage.SaveData(Workouts);
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WorkoutUrl, RestClient.BearerToken);
+            client.PostData<WorkoutEntryDTO>(Workout);
         }
 
-        public void UpdateWorkout(WorkoutEntry Workout, WeightEntry WeightEntry)
+        public void UpdateWorkout(WorkoutEntryDTO Workout)
         {
-            List<WorkoutEntry> Workouts = GetWorkouts();
-            var ExistingWorkout = GetWorkoutByGUID(Workouts, Workout.GUID);
-            if (ExistingWorkout != null)
-            {
-                ExistingWorkout.WorkoutName = Workout.WorkoutName;
-                ExistingWorkout.Date = Workout.Date;
-                ExistingWorkout.Intensity = Workout.Intensity;
-                ExistingWorkout.CaloriesBurned = Workout.CaloriesBurned;
-                
-                WeightEntryService.Instance.UpdateEntry(WeightEntry, Workout.WeightEntryGUID);
-                DataStorage.SaveData(Workouts);
-            }
-            else
-            {
-                throw new RecordNotFoundExeption(Workout.GUID);
-            }
-            
-        }
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WorkoutUrl  +"/" + Workout.WorkoutEntryId, RestClient.BearerToken);
+            client.PutData<WorkoutEntryDTO>(Workout);
 
-        public bool CheckIfWeightEntryExistsInWorkout(string GUID)
-        {            
-            var ExistingWorkout = GetWorkouts().FirstOrDefault(obj => obj.WeightEntryGUID.Equals(GUID));
-            if (ExistingWorkout != null)
-            {
-                return true;
-            }
-            return false;
         }
     }
 }
-*/

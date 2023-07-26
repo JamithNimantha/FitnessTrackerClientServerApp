@@ -59,7 +59,6 @@ namespace FitnessTrackerServerApp.Service
 
             workoutEntryDTO.WeightEntryId = weightEntry.Value.WeightEntryId;
             
-            var workoutEntry = new WorkoutEntry();
             var entry = ConvertModel(workoutEntryDTO);
 
             try

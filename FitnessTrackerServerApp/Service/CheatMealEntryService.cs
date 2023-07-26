@@ -57,10 +57,9 @@ namespace FitnessTrackerServerApp.Service
             var weightEntry = await _weightEntryService.Add(CheatMealEntryDTO.WeightEntry);
 
             CheatMealEntryDTO.WeightEntryId = weightEntry.Value.WeightEntryId;
+            CheatMealEntryDTO.CheatMealEntryId = null;
 
-            var workoutEntry = new WorkoutEntry();
             var entry = ConvertModel(CheatMealEntryDTO);
-
             try
             {
                 _db.CheatMealEntry.Add(entry);

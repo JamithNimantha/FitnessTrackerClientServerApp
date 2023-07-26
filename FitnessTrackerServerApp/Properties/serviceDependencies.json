@@ -7,6 +7,9 @@
     "sqlite1": {
       "type": "sqlite",
       "connectionId": "ConnectionStrings:FitnessTrackerServerAppDBContext"
+    },
+    "apis1": {
+      "type": "apis"
     }
   }
 }

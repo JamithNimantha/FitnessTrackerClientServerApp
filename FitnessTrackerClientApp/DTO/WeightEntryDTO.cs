@@ -1,13 +1,14 @@
 ﻿using System;
 
-namespace FitnessTrackerClientApp.Model
+namespace FitnessTrackerClientApp.DTO
 {
-    public class WeightEntry
-    {
+    [Serializable]
 
+    public class WeightEntryDTO
+    {
         public DateTime Date { get; set; }
         public decimal Weight { get; set; }
         public string UserName { get; set; }
-        public string GUID { get; set; }
+        public String WeightEntryId { get; set; }
     }
 }

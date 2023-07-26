@@ -22,6 +22,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IWeightEntryService, WeightEntryService>();
 builder.Services.AddTransient<IWorkoutEntryService, WorkoutEntryService>();
 builder.Services.AddTransient<ICheatMealEntryService, CheatMealEntryService>();
+builder.Services.AddTransient<IReportService, ReportService>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(option =>
@@ -75,15 +76,15 @@ builder.Services.AddAuthentication(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+/*if (app.Environment.IsDevelopment())
+{*/
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+/*}*/
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
 app.MapControllers();
-
+app.UseStaticFiles();
 app.Run();

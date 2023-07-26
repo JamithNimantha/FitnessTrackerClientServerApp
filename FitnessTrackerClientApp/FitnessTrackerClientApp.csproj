@@ -52,13 +52,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\CheatMealEntry.cs" />
+    <Compile Include="DTO\CheatMealEntryDTO.cs" />
+    <Compile Include="DTO\FitnessPredictionDTO.cs" />
     <Compile Include="DTO\LoginUserDTO.cs" />
     <Compile Include="DTO\RegisterUserDTO.cs" />
+    <Compile Include="DTO\ReportDataDTO.cs" />
+    <Compile Include="DTO\ReportItemDataDTO.cs" />
     <Compile Include="DTO\UpdatePasswordDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
-    <Compile Include="DTO\WeightEntry.cs" />
-    <Compile Include="DTO\WorkoutEntry.cs" />
+    <Compile Include="DTO\WeightEntryDTO.cs" />
+    <Compile Include="DTO\WorkoutEntryDTO.cs" />
     <Compile Include="Enumeration\Gender.cs" />
     <Compile Include="Exceptions\RecordNotFoundExeption.cs" />
     <Compile Include="Exceptions\UserNameAlreadyExistsExeption.cs" />

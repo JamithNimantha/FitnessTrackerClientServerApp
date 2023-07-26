@@ -20,17 +20,17 @@ namespace FitnessTrackerClientApp.View
 
         private void LoadTable()
         {
-            /*dataGridViewWeightEntry.Rows.Clear();
+            dataGridViewWeightEntry.Rows.Clear();
             var list = WeightEntryService.Instance.FindWeightEntriesInDescByUserName(_userName);
             list.ForEach(x => 
             { 
-                dataGridViewWeightEntry.Rows.Add(x.Weight, x.Date, x.GUID);
-            });*/
+                dataGridViewWeightEntry.Rows.Add(x.Weight, x.Date, x.WeightEntryId);
+            });
         }
 
         private void DeleteRecord()
         {
-           /* var selectedRows = dataGridViewWeightEntry.SelectedRows;
+            var selectedRows = dataGridViewWeightEntry.SelectedRows;
             if (selectedRows.Count == 0)
             {
                 MessageBox.Show("Please Select a Row!");
@@ -45,28 +45,28 @@ namespace FitnessTrackerClientApp.View
 
             var selectedRow = selectedRows[0];
             var guid = selectedRow.Cells[2].Value.ToString();
-            bool existsInWorkout = WorkoutService.Instance.CheckIfWeightEntryExistsInWorkout(guid);
+            /*bool existsInWorkout = WorkoutService.Instance.CheckIfWeightEntryExistsInWorkout(guid);
             if (existsInWorkout)
             {
                 MessageBox.Show("This Weight Entry is used in a Workout. Please delete the Workout first!");
                 return;
-            }
+            }*/
 
-            bool existsInCheatMeal = CheatMealService.Instance.CheckIfWeightEntryExistsInCheatMeal(guid);
+            /*bool existsInCheatMeal = CheatMealService.Instance.CheckIfWeightEntryExistsInCheatMeal(guid);
             if (existsInCheatMeal)
             {
                 MessageBox.Show("This Weight Entry is used in a Cheat Meal. Please delete the Cheat Meal first!");
                 return;
-            }
-            
+            }*/
+
             WeightEntryService.Instance.DeleteEntry(guid);
             dataGridViewWeightEntry.Rows.Remove(selectedRow);
-            MessageBox.Show("Weight Entry Deleted Successfully!");*/
+            MessageBox.Show("Weight Entry Deleted Successfully!");
         }
 
         private void UpdateRecord()
         {
-           /* var selectedRows = dataGridViewWeightEntry.SelectedRows;
+            var selectedRows = dataGridViewWeightEntry.SelectedRows;
             if (selectedRows.Count == 0)
             {
                 MessageBox.Show("Please Select a Row!");
@@ -78,14 +78,14 @@ namespace FitnessTrackerClientApp.View
             txtWeight.Value = Convert.ToDecimal(selectedRow.Cells[0].Value);
             datePickerWeightEntryDate.Value = Convert.ToDateTime(selectedRow.Cells[1].Value);
             this.IsUpdate = true;
-            ChangeSaveUpdateButton();*/
+            ChangeSaveUpdateButton();
 
-            
+
         }
 
         private void UpdateEntry()
         {
-            /*var weight = Convert.ToDecimal(txtWeight.Text);
+            var weight = Convert.ToDecimal(txtWeight.Text);
             var Date = datePickerWeightEntryDate.Value;
 
             if (weight <= 0)
@@ -100,37 +100,37 @@ namespace FitnessTrackerClientApp.View
                 return;
             }
 
-            var weightEntry = new WeightEntry();
+            var weightEntry = new WeightEntryDTO();
             weightEntry.Weight = weight;
             weightEntry.Date = Date;
             weightEntry.UserName = _userName;
-            weightEntry.GUID = this._GUID;
+            weightEntry.WeightEntryId = this._GUID;
 
             WeightEntryService.Instance.UpdateEntry(weightEntry, this._GUID);
             MessageBox.Show("Weight Entry Updated Successfully!");
             this.IsUpdate = false;
-            Clear();*/
+            Clear();
         }
 
         private void ChangeSaveUpdateButton()
         {
-            /*if (this.IsUpdate)
+            if (this.IsUpdate)
             {
                 this.btnAddEntry.Text = "Update";
                 this.btnAddEntry.BackColor = System.Drawing.Color.Green;
-            } 
+            }
             else
             {
                 this.btnAddEntry.Text = "Save";
                 this.btnAddEntry.BackColor = System.Drawing.Color.Blue;
-            }*/
-            
+            }
+
         }
 
 
         private void SaveEntry()
         {
-            /*var weight = Convert.ToDecimal(txtWeight.Text);
+            var weight = Convert.ToDecimal(txtWeight.Text);
             var Date = datePickerWeightEntryDate.Value;
 
             if (weight <= 0)
@@ -145,7 +145,7 @@ namespace FitnessTrackerClientApp.View
                 return;
             }
 
-            var weightEntry = new WeightEntry();
+            var weightEntry = new WeightEntryDTO();
             weightEntry.Weight = weight;
             weightEntry.Date = Date;
             weightEntry.UserName = _userName;
@@ -153,7 +153,7 @@ namespace FitnessTrackerClientApp.View
             WeightEntryService.Instance.AddEntry(weightEntry);
 
             MessageBox.Show("Weight Entry Added Successfully!");
-            Clear();*/
+            Clear();
         }
 
 
@@ -173,11 +173,11 @@ namespace FitnessTrackerClientApp.View
 
         private void Clear()
         {
-            /*var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
+            var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
             txtWeight.Text = latestWeightEntry.Weight.ToString();
             datePickerWeightEntryDate.Value = DateTime.Now.Date;
             LoadTable();
-            ChangeSaveUpdateButton();*/
+            ChangeSaveUpdateButton();
 
         }
 

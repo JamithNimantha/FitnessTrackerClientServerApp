@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FitnessTrackerServerApp.DTO
 {
+    [Serializable]
     public class CheatMealEntryDTO
     {
         [Required]

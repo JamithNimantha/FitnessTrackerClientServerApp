@@ -63,17 +63,25 @@ namespace FitnessTrackerClientApp.View
 
         private void GenerateReport()
         {
-            
-           /* if (datePickerStartDate.Value.Date > datePickerEndDate.Value.Date)
+
+            if (datePickerStartDate.Value.Date > datePickerEndDate.Value.Date)
             {
                 MessageBox.Show("Start Date cannot be greater than End Date");
                 return;
             }
 
+            var entry = new ReportDataDTO
+            {
+                StartDate = datePickerStartDate.Value.Date,
+                EndDate = datePickerEndDate.Value.Date
+            };
             var startDate = datePickerStartDate.Value.Date;
             var endDate = datePickerEndDate.Value.Date;
 
-            List<WorkoutEntry> workoutEntries = WorkoutService.Instance.FindWorkoutsInDescByUserName(_userName)
+            var client = new RestClient(RestClient.BaseUrl + RestClient.ReportUrl, RestClient.BearerToken);
+            var record = client.PostData<ReportDataDTO>(entry);
+
+            /*List<WorkoutEntry> workoutEntries = WorkoutService.Instance.FindWorkoutsInDescByUserName(_userName)
                 .Where(w => w.Date >= startDate && w.Date <= endDate)
                 .ToList();
             List<CheatMealEntry> cheatMealEntries = CheatMealService.Instance.FindCheatMealEntriesInDescByUserName(_userName)
@@ -82,24 +90,22 @@ namespace FitnessTrackerClientApp.View
 
             List<WeightEntry> weightEntries = WeightEntryService.Instance.FindWeightEntriesInDescByUserName(_userName)
                 .Where(w => w.Date >= startDate && w.Date <= endDate)
-                .ToList();
+                .ToList();*/
 
-            var totalCaloriesBurnt = workoutEntries.Sum(w => w.CaloriesBurned);
+           /* var totalCaloriesBurnt = workoutEntries.Sum(w => w.CaloriesBurned);
             var totalCaloriesGained = cheatMealEntries.Sum(c => c.Calories);
             // calculate the average weight to 2 decimal places
-
-           
             var averageWeight = weightEntries.Average(w => w.Weight);
             // calculate the average calories burnt
             var averageCaloriesBurnt = workoutEntries.Average(w => w.CaloriesBurned);
             // calculate the average calories gained
-            var averageCaloriesGained = cheatMealEntries.Average(c => c.Calories);
+            var averageCaloriesGained = cheatMealEntries.Average(c => c.Calories);*/
 
-            lbltotalCaloriesBurnt.Text = $"Total Calories Burned : {Math.Round(totalCaloriesBurnt,2)}";
-            lbltotalCaloriesGained.Text = $"Total Calories Gained : {Math.Round(totalCaloriesGained,2)}";
-            lblAverageWeight.Text = $"Average Weight : {Math.Round(averageWeight,2)} KG";
+            lbltotalCaloriesBurnt.Text = $"Total Calories Burned : {Math.Round(record.TotolCaloriesBurned, 2)}";
+            lbltotalCaloriesGained.Text = $"Total Calories Gained : {Math.Round(record.TotalCaloriesGained, 2)}";
+            lblAverageWeight.Text = $"Average Weight : {Math.Round(record.AverageWeight, 2)} KG";
 
-            var combinedList = weightEntries
+            /*var combinedList = record.ReportItemData
                 .GroupBy(w => w.Date.Date)
                 .Select(w => new
                 {
@@ -110,14 +116,15 @@ namespace FitnessTrackerClientApp.View
                     CaloriesGained = cheatMealEntries.Where(c => c.Date.Date == w.Key).Sum(c => c.Calories),
                     AverageWeight = weightEntries.Where(c => c.Date.Date == w.Key).Average(c => c.Weight)
                 })
-                .ToList();
+                .ToList();*/
 
-           
+
             this.dataGridView.Rows.Clear();
-            foreach (var item in combinedList)
+            foreach (var item in record.ReportItemData)
             {
-                this.dataGridView.Rows.Add(item.Date.ToShortDateString(), item.Workouts, item.CheatMeals, item.CaloriesBurnt, item.CaloriesGained, item.AverageWeight);
-            }*/
+                this.dataGridView.Rows.Add(item.Date.ToShortDateString(), item.Workouts,
+                    item.CheatMeals, item.CaloriesBurned, item.CaloriesGained, Math.Round(item.AverageWeight, 2));
+            }
 
         }
 

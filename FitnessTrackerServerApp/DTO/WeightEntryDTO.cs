@@ -2,6 +2,8 @@
 
 namespace FitnessTrackerServerApp.DTO
 {
+    [Serializable]
+
     public class WeightEntryDTO
     {
         [Required]

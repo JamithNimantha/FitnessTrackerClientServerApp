@@ -1,13 +1,10 @@
-﻿/*using FitnessTrackerApp.Exceptions;
-using FitnessTrackerApp.Model;
+﻿using FitnessTrackerClientApp.DTO;
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms.DataVisualization.Charting;
 
-namespace FitnessTrackerApp.Service
+namespace FitnessTrackerClientApp.Service
 {
     public class CheatMealService
     {
@@ -33,12 +30,12 @@ namespace FitnessTrackerApp.Service
             }
         }
 
-        public List<CheatMealEntry> GetCheatMeals()
+       /* public List<CheatMealEntryDTO> GetCheatMeals()
         {
             return DataStorage.LoadData<CheatMealEntry>();
-        }
+        }*/
 
-        public bool CheckIfWeightEntryExistsInCheatMeal(string GUID)
+       /* public bool CheckIfWeightEntryExistsInCheatMeal(string GUID)
         {
             CheatMealEntry cheatMealEntry = GetCheatMeals().FirstOrDefault(obj => obj.WeightEntryGUID.Equals(GUID));
             if (cheatMealEntry != null)
@@ -46,35 +43,34 @@ namespace FitnessTrackerApp.Service
                 return true;
             }
             return false;
-        }
+        }*/
 
-        public CheatMealEntry GetCheatMealEntryByGUID(List<CheatMealEntry> CheatMealEntries, string GUID)
+       /* public CheatMealEntryDTO GetCheatMealEntryByGUID(List<CheatMealEntry> CheatMealEntries, string GUID)
         {
             return CheatMealEntries.FirstOrDefault(obj => obj.GUID.Equals(GUID));
-        }
+        }*/
 
-        public CheatMealEntry GetCheatMealEntryByGUID(string GUID)
+        public CheatMealEntryDTO GetCheatMealEntryByGUID(string GUID)
         {
-            return GetCheatMeals().FirstOrDefault(obj => obj.GUID.Equals(GUID));
+            var client = new RestClient(RestClient.BaseUrl + RestClient.CheatMealUrl + "/" + GUID, RestClient.BearerToken);
+            return client.FetchData<CheatMealEntryDTO>();
         }
 
-        public List<CheatMealEntry> FindCheatMealEntriesInAscByUserName(string UserName)
+        /*public List<CheatMealEntryDTO> FindCheatMealEntriesInAscByUserName(string UserName)
         {
             return GetCheatMeals()
                 .Where(obj => obj.UserName.Equals(UserName))
                 .OrderBy(obj => obj.Date)
                 .ToList();
-        }
+        }*/
 
-        public List<CheatMealEntry> FindCheatMealEntriesInDescByUserName(string UserName)
+        public List<CheatMealEntryDTO> FindCheatMealEntriesInDescByUserName(string UserName)
         {
-            return GetCheatMeals()
-                .Where(obj => obj.UserName.Equals(UserName))
-                .OrderByDescending(obj => obj.Date)
-                .ToList();
+            var client = new RestClient(RestClient.BaseUrl + RestClient.CheatMealUrl, RestClient.BearerToken);
+            return client.FetchData<List<CheatMealEntryDTO>>();
         }
 
-        public CheatMealEntry FindLatestCheatMealEntryForUser(string UserName)
+        /*public CheatMealEntry FindLatestCheatMealEntryForUser(string UserName)
         {
             List<CheatMealEntry> cheatMealEntries = GetCheatMeals();
             if (cheatMealEntries.Count == 0)
@@ -83,47 +79,25 @@ namespace FitnessTrackerApp.Service
             }
 
             return cheatMealEntries.Where(obj => obj.UserName.Equals(UserName)).OrderByDescending(obj => obj.Date).First();
-        }
+        }*/
 
         public void DeleteCheatMealEntryByGUID(string GUID)
         {
-            List<CheatMealEntry> cheatMealEntries = GetCheatMeals();
-            CheatMealEntry cheatMealEntry = cheatMealEntries.FirstOrDefault(obj => obj.GUID.Equals(GUID));
-            if (cheatMealEntry == null)
-            {
-                throw new RecordNotFoundExeption(GUID);
-            }
-            WeightEntryService.Instance.DeleteEntry(cheatMealEntry.WeightEntryGUID);
-            cheatMealEntries.Remove(cheatMealEntry);
-            DataStorage.SaveData(cheatMealEntries);
+            var client = new RestClient(RestClient.BaseUrl + RestClient.CheatMealUrl + "/" + GUID, RestClient.BearerToken);
+            client.Delete<CheatMealEntryDTO>();
         }
 
-        public void AddCheatMealEntry(CheatMealEntry cheatMealEntry, WeightEntry WeightEntry)
+        public void AddCheatMealEntry(CheatMealEntryDTO cheatMealEntry)
         {
-            List<CheatMealEntry> cheatMealEntries = GetCheatMeals();
-            WeightEntry = WeightEntryService.Instance.AddEntry(WeightEntry);
-
-            cheatMealEntry.WeightEntryGUID = WeightEntry.GUID;
-            cheatMealEntry.GUID = Guid.NewGuid().ToString();
-            cheatMealEntries.Add(cheatMealEntry);
-            DataStorage.SaveData(cheatMealEntries);
+            var client = new RestClient(RestClient.BaseUrl + RestClient.CheatMealUrl, RestClient.BearerToken);
+            client.PostData<CheatMealEntryDTO>(cheatMealEntry);
         }
 
-        public void UpdateCheatMealEntry(CheatMealEntry cheatMealEntry, WeightEntry WeightEntry)
+        public void UpdateCheatMealEntry(CheatMealEntryDTO cheatMealEntry)
         {
-            List<CheatMealEntry> cheatMealEntries = GetCheatMeals();
-            CheatMealEntry cheatMealEntryToUpdate = cheatMealEntries.FirstOrDefault(obj => obj.GUID.Equals(cheatMealEntry.GUID));
-            if (cheatMealEntryToUpdate == null)
-            {
-                throw new RecordNotFoundExeption(cheatMealEntry.GUID);
-            }
-            WeightEntryService.Instance.UpdateEntry(WeightEntry, cheatMealEntry.WeightEntryGUID);
-            cheatMealEntryToUpdate.Date = cheatMealEntry.Date;
-            cheatMealEntryToUpdate.Calories = cheatMealEntry.Calories;
-            cheatMealEntryToUpdate.MealName = cheatMealEntry.MealName;
-            DataStorage.SaveData(cheatMealEntries);
+            var client = new RestClient(RestClient.BaseUrl + RestClient.CheatMealUrl + "/" + cheatMealEntry.CheatMealEntryId, RestClient.BearerToken);
+            client.PutData<CheatMealEntryDTO>(cheatMealEntry);
         }
 
     }
 }
-*/

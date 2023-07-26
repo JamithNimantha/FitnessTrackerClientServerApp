@@ -1,14 +1,10 @@
-﻿using FitnessTrackerClientApp.Model;
+﻿using FitnessTrackerClientApp.DTO;
 using FitnessTrackerClientApp.Service;
 using FitnessTrackerClientApp.Utility;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FitnessTrackerClientApp.View
@@ -27,14 +23,14 @@ namespace FitnessTrackerClientApp.View
 
         public void Clear()
         {
-            /*var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
+            var latestWeightEntry = WeightEntryService.Instance.FindLatestWeightEntryForUser(_userName);
             txtWeight.Text = latestWeightEntry.Weight.ToString();
             datePickerWeightEntryDate.Value = DateTime.Now;
             txtWorkoutName.Text = "";
-            txtColoriesBurnt.Text =  Convert.ToDecimal("0.00").ToString();
+            txtColoriesBurnt.Text = Convert.ToDecimal("0.00").ToString();
             LoadTable();
             ChangeSaveUpdateButton();
-            cmbIntensity.DataSource = Util.GetIntensityTypes();*/
+            cmbIntensity.DataSource = Util.GetIntensityTypes();
 
         }
 
@@ -53,15 +49,13 @@ namespace FitnessTrackerClientApp.View
         }
 
         public void LoadTable()
-        { 
-           /* dataGridView.Rows.Clear();
+        {
+            dataGridView.Rows.Clear();
             var WorkoutEntries = WorkoutService.Instance.FindWorkoutsInDescByUserName(_userName);
-            var WeightEntries = WeightEntryService.Instance.FindWeightEntriesInDescByUserName(_userName);
-            WorkoutEntries.ForEach( Workout =>
+            WorkoutEntries.ForEach(Workout =>
             {
-                var WeightEntry = WeightEntryService.Instance.GetWeightEntryByGUID(WeightEntries, Workout.WeightEntryGUID);
-                dataGridView.Rows.Add(Workout.WorkoutName, Workout.Intensity, Workout.CaloriesBurned, WeightEntry.Weight, Workout.Date, Workout.GUID);
-            });*/
+                dataGridView.Rows.Add(Workout.WorkoutName, Workout.Intensity, Workout.CaloriesBurned, Workout.WeightEntry.Weight, Workout.Date, Workout.WorkoutEntryId);
+            });
 
         }
 
@@ -109,24 +103,22 @@ namespace FitnessTrackerClientApp.View
                 return;
             }
 
-            /*var WorkoutEntry = WorkoutService.Instance.GetWorkoutByGUID(_GUID);
+            var WorkoutEntry = WorkoutService.Instance.GetWorkoutByGUID(_GUID);
             WorkoutEntry.WorkoutName = txtWorkoutName.Text;
             WorkoutEntry.CaloriesBurned = Convert.ToDecimal(txtColoriesBurnt.Text);
             WorkoutEntry.Date = datePickerWeightEntryDate.Value;
             WorkoutEntry.Intensity = cmbIntensity.Text;
 
-            var WeightEntry = new WeightEntry();
-            WeightEntry.Date = datePickerWeightEntryDate.Value;
-            WeightEntry.UserName = _userName;
-            WeightEntry.Weight = Convert.ToDecimal(txtWeight.Text);
-            WeightEntry.GUID = WorkoutEntry.WeightEntryGUID;*/
+            WorkoutEntry.WeightEntry.Date = datePickerWeightEntryDate.Value;
+            WorkoutEntry.WeightEntry.UserName = _userName;
+            WorkoutEntry.WeightEntry.Weight = Convert.ToDecimal(txtWeight.Text);
 
             try
             {
-               /* WorkoutService.Instance.UpdateWorkout(WorkoutEntry, WeightEntry);
+                WorkoutService.Instance.UpdateWorkout(WorkoutEntry);
                 MessageBox.Show("Workout Entry Updated Successfully!");
                 this.IsUpdate = false;
-                Clear();*/
+                Clear();
             }
             catch (Exception ex)
             {
@@ -167,23 +159,24 @@ namespace FitnessTrackerClientApp.View
                 return;
             }
 
-            var WorkoutEntry = new WorkoutEntry();
+            var WorkoutEntry = new WorkoutEntryDTO();
             WorkoutEntry.WorkoutName = txtWorkoutName.Text;
             WorkoutEntry.CaloriesBurned = Convert.ToDecimal(txtColoriesBurnt.Text);
             WorkoutEntry.Date = datePickerWeightEntryDate.Value;
             WorkoutEntry.Intensity = cmbIntensity.Text;
             WorkoutEntry.UserName = _userName;
 
-            var WeightEntry = new WeightEntry();
+            var WeightEntry = new WeightEntryDTO();
             WeightEntry.Date = datePickerWeightEntryDate.Value;
             WeightEntry.UserName = _userName;
             WeightEntry.Weight = Convert.ToDecimal(txtWeight.Text);
+            WorkoutEntry.WeightEntry = WeightEntry;
 
             try
             {
-                /*WorkoutService.Instance.AddWorkout(WorkoutEntry, WeightEntry);
+                WorkoutService.Instance.AddWorkout(WorkoutEntry);
                 MessageBox.Show("Workout Entry Saved Successfully!");
-                Clear();*/
+                Clear();
             }
             catch (Exception ex)
             {
@@ -233,9 +226,9 @@ namespace FitnessTrackerClientApp.View
             }
             dataGridView.SelectedRows.Cast<DataGridViewRow>().ToList().ForEach(row =>
             {
-              /*  var GUID = row.Cells["GUID"].Value.ToString();
+                var GUID = row.Cells["GUID"].Value.ToString();
                 WorkoutService.Instance.DeleteWorkoutByGUID(GUID);
-                dataGridView.Rows.Remove(row);*/
+                dataGridView.Rows.Remove(row);
             });
             MessageBox.Show("Weight Entry Deleted Successfully!");
         }

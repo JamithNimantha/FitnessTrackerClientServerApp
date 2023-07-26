@@ -1,9 +1,8 @@
-﻿/*using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using FitnessTrackerApp.Exceptions;
-using FitnessTrackerApp.Model;
+using FitnessTrackerClientApp.DTO;
 
-namespace FitnessTrackerApp.Service
+namespace FitnessTrackerClientApp.Service
 {
     public class WeightEntryService
     {
@@ -28,87 +27,48 @@ namespace FitnessTrackerApp.Service
             }
         }
 
-        public List<WeightEntry> FindWeightEntriesInAscByUserName(string UserName)
+        public List<WeightEntryDTO> FindWeightEntriesInAscByUserName(string UserName)
         {
-            return GetWeightEntries()
-                .Where(obj => obj.UserName.Equals(UserName))
-                .OrderBy(obj => obj.Date)
-                .ToList();
+            var client = new RestClient(RestClient.BaseUrl + RestClient.LatestWeightEntriesUrl, RestClient.BearerToken);
+            return client.FetchData<List<WeightEntryDTO>>();
         }
 
-        public List<WeightEntry> FindWeightEntriesInDescByUserName(string UserName)
+        public List<WeightEntryDTO> FindWeightEntriesInDescByUserName(string UserName)
         {
 
-            return GetWeightEntries()
-                .Where(obj => obj.UserName.Equals(UserName))
-                .OrderByDescending(obj => obj.Date)
-                .ToList();
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WeightUrl, RestClient.BearerToken);
+            return client.FetchData<List<WeightEntryDTO>>();
         }
 
-        public WeightEntry FindLatestWeightEntryForUser(string UserName)
+        public WeightEntryDTO FindLatestWeightEntryForUser(string UserName)
         {
-            List<WeightEntry> weightEntries = GetWeightEntries();
-            if (weightEntries.Count == 0)
-            {
-                return new WeightEntry();
-            }
-
-            return weightEntries.Where(obj => obj.UserName.Equals(UserName)).OrderByDescending(obj => obj.Date).First();
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WeightUrl, RestClient.BearerToken);
+            return client.FetchData<List<WeightEntryDTO>>().OrderByDescending(obj => obj.Date).First();
         }
 
-        public WeightEntry GetWeightEntryByGUID(List<WeightEntry> WeightEntries, string GUID)
+       /* public WeightEntry GetWeightEntryByGUID(List<WeightEntry> WeightEntries, string GUID)
         {
             return WeightEntries.FirstOrDefault(obj => obj.GUID.Equals(GUID));
-        }
+        }*/
 
-        public WeightEntry AddEntry(WeightEntry WeightEntry)
+        public WeightEntryDTO AddEntry(WeightEntryDTO WeightEntry)
         {
-            List<WeightEntry> WeightEntries = GetWeightEntries();
-            WeightEntry.GUID = System.Guid.NewGuid().ToString();
-            WeightEntries.Add(WeightEntry);
-            DataStorage.SaveData(WeightEntries);
-
-            return WeightEntry;
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WeightUrl, RestClient.BearerToken);
+            return client.PostData<WeightEntryDTO>(WeightEntry);
         }
 
         public void DeleteEntry(string GUID)
         {
-            List<WeightEntry> WeightEntries = GetWeightEntries();
-            var WeightEntry = GetWeightEntryByGUID(WeightEntries, GUID);
-            if (WeightEntry != null)
-            {
-                WeightEntries.Remove(WeightEntry);
-                DataStorage.SaveData(WeightEntries);
-            } 
-            else
-            {
-                throw new RecordNotFoundExeption(GUID);
-            }
-            
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WeightUrl + "/" + GUID, RestClient.BearerToken);
+            client.Delete<WeightEntryDTO>();
+
         }
 
-        public WeightEntry UpdateEntry(WeightEntry Entry, string GUID)
+        public void UpdateEntry(WeightEntryDTO Entry, string GUID)
         {
-            List<WeightEntry> WeightEntries = GetWeightEntries();
-            var WeightEntry = GetWeightEntryByGUID(WeightEntries, GUID);
-            if (WeightEntry != null)
-            {
-                WeightEntry.Weight = Entry.Weight;
-                WeightEntry.Date = Entry.Date;
-                DataStorage.SaveData(WeightEntries);
-            }
-            else
-            {
-                throw new RecordNotFoundExeption(GUID);
-            }
-            return Entry;
-        }
-
-        public static List<WeightEntry> GetWeightEntries()
-        {
-            return DataStorage.LoadData<WeightEntry>();
+            var client = new RestClient(RestClient.BaseUrl + RestClient.WeightUrl + "/" + Entry.WeightEntryId, RestClient.BearerToken);
+            client.PutData<WeightEntryDTO>(Entry);
         }
 
     }
 }
-*/
