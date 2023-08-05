@@ -7,7 +7,7 @@ namespace FitnessTrackerClientApp.DTO
     {
         public DateTime Date { get; set; }
         public string UserName { get; set; }
-        public Guid CheatMealEntryId { get; set; }
+        public string CheatMealEntryId { get; set; }
         public string MealName { get; set; }
         public decimal Calories { get; set; }
         public Guid WeightEntryId { get; set; }

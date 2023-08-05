@@ -1,14 +1,17 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 using Newtonsoft.Json;
 
 namespace FitnessTrackerClientApp.Service
 {
     public class RestClient
     {
-        public static readonly string BaseUrl = "http://localhost:5156";
- //       public static readonly string BaseUrl = "https://fitnesstrackerserverapp20230727003520.azurewebsites.net";
+       // public static readonly string BaseUrl = "http://localhost:5156";
+        public static readonly string BaseUrl = "https://fitnesstrackerserverapp20230727003520.azurewebsites.net";
         public static readonly string RegisterUserUrl = "/Auth/RegisterUser";
         public static readonly string AuthUrl = "/Auth/Login";
         public static readonly string UserUrl = "/api/Users";
@@ -38,6 +41,38 @@ namespace FitnessTrackerClientApp.Service
             : this(apiUrl)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", bearerToken);
+        }
+
+        private void LogRequestResponse(string request, string response)
+        {
+            var settings = new XmlWriterSettings
+            {
+                Indent = true,
+                NewLineHandling = NewLineHandling.Entitize
+            };
+
+            XElement rootElement;
+            if (File.Exists("RequestResponseLog.xml"))
+            {
+                rootElement = XElement.Load("RequestResponseLog.xml");
+            }
+            else
+            {
+                rootElement = new XElement("LogEntries");
+            }
+
+            XElement logEntry = new XElement("LogEntry",
+                new XElement("DateTime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+                new XElement("Request", request),
+                new XElement("Response", response)
+            );
+
+            rootElement.Add(logEntry);
+
+            using (XmlWriter writer = XmlWriter.Create("RequestResponseLog.xml", settings))
+            {
+                rootElement.Save(writer);
+            }
         }
 
         public T FetchData<T>()
@@ -125,6 +160,9 @@ namespace FitnessTrackerClientApp.Service
                 response.EnsureSuccessStatusCode();
 
                 string responseData = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+                LogRequestResponse(jsonData, responseData);
+
 
                 if (typeof(T) == typeof(string))
                 {
